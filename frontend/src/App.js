@@ -1,35 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Header from './components/UIC/Header';
-import Home from './components/pages/Home';
-import AddExperience from './components/pages/AddExperience';
-import ExperienceDetails from './components/pages/ExperienceDetails';
+import React from "react";
+import "./App.css";
 
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+
+import Header from "./components/UIC/Header";
+import Home from "./components/pages/Home";
+import AddExperience from "./components/pages/AddExperience";
+import ExperienceDetails from "./components/pages/ExperienceDetails";
+
+function MainLayout() {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+}
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Home></Home>
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "my-experiences",
+        element: <Home />,
+      },
+      {
+        path: "addexperience",
+        element: <AddExperience />,
+      },
+      {
+        path: "experiencedetails/:id",
+        element: <ExperienceDetails />,
+      },
+    ],
   },
-  {
-    path: '/addexperience',
-    element: <AddExperience></AddExperience>
-  },
-  {
-    path: '/experiencedetails/:id',
-    element: <ExperienceDetails></ExperienceDetails>
-  }
-])
+]);
 
 function App() {
-  return (
-    <div>
-      <Header></Header>
-      <RouterProvider router={router}></RouterProvider>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

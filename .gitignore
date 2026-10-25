@@ -128,3 +128,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# TravelMemory security and deployment files
+.env.*
+!.env.example
+!.env.sample
+backend/.env
+frontend/.env
+.DS_Store

@@ -1,26 +1,49 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"
 
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+const fallbackImage =
+  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80";
 
 export default function Card(props) {
-    const navigate = useNavigate()
-    const visitDetails = () => {
-        navigate(`/experiencedetails/${props.id}`)
-    }
+  const navigate = useNavigate();
+
+  const visitDetails = () => {
+    navigate(`/experiencedetails/${props.id}`);
+  };
+
   return (
-    <div style={{ marginBottom: "2%", marginTop: "2%"}}>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{props.title}</h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">{props.tripType}</h6>
-          <p class="card-text">
-            {props.description}
-          </p>
-          <button class="card-link btn btn-primary" onClick={visitDetails}>
-            More Details
-          </button>
-        </div>
+    <article className="trip-card">
+      <div className="trip-card-image-wrap">
+        <img
+          className="trip-card-image"
+          src={props.image || fallbackImage}
+          alt={props.title || "Travel destination"}
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = fallbackImage;
+          }}
+        />
+        <span className="trip-type-badge">
+          {props.tripType || "Travel"}
+        </span>
       </div>
-    </div>
+
+      <div className="trip-card-content">
+        <h3 className="trip-card-title">{props.title}</h3>
+        <p className="trip-card-description">
+          {props.description || "Discover the memories from this trip."}
+        </p>
+
+        <button
+          className="trip-details-button"
+          onClick={visitDetails}
+          type="button"
+        >
+          Explore trip <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </article>
   );
 }
